@@ -1,14 +1,9 @@
-import { useContext, useState } from "react";
-import { UserContext } from "../../contexts/user.context";
-import {
-    signInWithGooglePopup,
-    createUserDocumentFromAuth,
-    signInAuthUserWithEmailAndPassword
-} from '../../utils/firebase/firebase.utils';
-import Button from "../button/button.component";
+import { useState } from "react";
+import Button, { BUTTON_TYPE_CLASSES } from "../button/button.component";
 import FormInput from "../form-input/form-input.component";
-
+import { useDispatch } from "react-redux";
 import './sign-in.styles.scss';
+import { emailSigninStart, googleSigninStart } from "../../store/user/user.actions";
 
 
 const defaultFormFields = {
@@ -19,12 +14,10 @@ const defaultFormFields = {
 const SignInForm = () => {
     const [formFields, setFormFields] = useState(defaultFormFields);
     const { email, password } = formFields;
-    const { setCurrentUser } = useContext(UserContext);
+    const dispatch = useDispatch();
 
     const signInWithGoogle = async () => {
-        const { user } = await signInWithGooglePopup();
-        await createUserDocumentFromAuth(user);
-        setCurrentUser(user);
+        dispatch(googleSigninStart());
     }
 
     const handleChange = event => {
@@ -37,15 +30,8 @@ const SignInForm = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
-        try {
-            const { user } = await signInAuthUserWithEmailAndPassword(email, password);
-            setCurrentUser(user);
-            resetFormFields();
-        } catch (error) {
-            alert(error.message)
-        }
-
+        dispatch(emailSigninStart(email, password));
+        resetFormFields();
     }
 
     const resetFormFields = () => {
@@ -78,9 +64,9 @@ const SignInForm = () => {
                     <Button
                         type="button"
                         onClick={signInWithGoogle}
-                        buttonType='google'
+                        buttonType={BUTTON_TYPE_CLASSES.google}
                     >
-                        Sign In With Google
+                        With Google
                     </Button>
                 </div>
             </form>

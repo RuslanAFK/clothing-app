@@ -1,0 +1,5 @@
+import {loadStripe} from '@stripe/stripe-js';
+
+const REACT_APP_STRIPE_PUBLISHABLE_KEY='pk_test_51Ln2m7ItSXgNeaqUZ44GifaDzJ2GWRqWIGsqmi7JyB7VhsM19YaJ4IV2axIIixbWmavIRyqZ6V6UarJMjfWJWYl500dZkagyxZ'
+
+export const stripePromise = loadStripe(REACT_APP_STRIPE_PUBLISHABLE_KEY);

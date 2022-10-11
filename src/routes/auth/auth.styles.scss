@@ -12,5 +12,16 @@
         h2 {
             margin: 10px 0;
         }
+        @media screen and (max-width: 800px) {
+            align-items: center;
+            width: 95vw;
+        }
+    }
+    @media screen and (max-width: 800px) {
+        align-items: center;
+        display: grid;
+        grid-row:span;
+        grid-row-gap: 20px;
+        width: unset;
     }
 }
